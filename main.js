@@ -1,3 +1,49 @@
+var input = document.getElementById("input");
+var btn = document.getElementById("btn");
+var container = document.getElementById("info");
+var pageLimit = 3;
+var i;
+
+btn.addEventListener("click", function() {
+	while(container.hasChildNodes()) {
+		container.removeChild(container.lastChild);
+	}
+	if(input.value.length < 1){
+		alert("Please enter a value");
+	}
+	else
+	{
+		for(i=0; i<pageLimit; i++) {
+			searchPage(i+1);
+		}
+	}
+});
+
+function searchPage(pageNumber){
+	var ourRequest = new XMLHttpRequest();
+	ourRequest.open('GET', 'https://raw.githubusercontent.com/gonzalezL/testSite/master/sampleNames-' + pageNumber + '.json');
+	ourRequest.onload = function() {
+		if(ourRequest.status >= 200 && ourRequest.status <400) {
+			var ourData = JSON.parse(ourRequest.responseText);
+			renderHTML(ourData);
+		}
+		else {
+			alert("Error occurred loading information.");
+		}
+	};
+	ourRequest.send();
+}
+
+function renderHTML(data) {
+	var htmlString = "";
+	for(i=0; i<data.length; i++){
+		if(data[i].firstName == input.value || data[i].lastName == input.value) {
+			htmlString+="<p>" + data[i].firstName + " " + data[i].lastName + "</p>";
+		}
+	}
+	container.insertAdjacentHTML('beforeend', htmlString);
+}
+/*
 var pageCounter=1;
 var pageLimit = 3;
 var container = document.getElementById("info");
@@ -37,3 +83,4 @@ function renderHTML(data) {
 	}
 	container.insertAdjacentHTML('beforeend', htmlString);
 }
+*/
