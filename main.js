@@ -4,10 +4,14 @@ var container = document.getElementById("info");
 var pageLimit = 3;
 var i;
 
+// Detect when button is pressed
 btn.addEventListener("click", function() {
+	// Clear list
 	while(container.hasChildNodes()) {
 		container.removeChild(container.lastChild);
 	}
+
+	// Check wether given input
 	if(input.value.length < 1){
 		alert("Please enter a value");
 	}
@@ -19,6 +23,7 @@ btn.addEventListener("click", function() {
 	}
 });
 
+// Send request to specified page
 function searchPage(pageNumber){
 	var ourRequest = new XMLHttpRequest();
 	ourRequest.open('GET', 'https://raw.githubusercontent.com/gonzalezL/testSite/master/sampleNames-' + pageNumber + '.json');
@@ -34,6 +39,7 @@ function searchPage(pageNumber){
 	ourRequest.send();
 }
 
+// List names if first or last name match
 function renderHTML(data) {
 	var htmlString = "";
 	for(i=0; i<data.length; i++){
